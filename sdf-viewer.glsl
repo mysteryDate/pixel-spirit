@@ -1,4 +1,3 @@
-
 #define pulse(center, width, a) step(center - width/2.0, a) * step(a, center + width/2.0)
 
 float circleSDF(vec2 st, float radius) {
@@ -6,12 +5,17 @@ float circleSDF(vec2 st, float radius) {
 }
 
 float rectSDF(vec2 st, vec2 s) {
-  st = st;
+  st = st * 2.0 - 1.0;
   return max(abs(st.x/s.x), abs(st.y/s.y));
 }
 
 float circleSDF2(vec2 st) {
   return length(st - 0.5) * 2.0;
+}
+
+float crossSDF(vec2 st, float s) {
+  vec2 size = vec2(0.25, s);
+  return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
 }
 
 void main() {
@@ -20,10 +24,11 @@ void main() {
   uv.x *= aspect;
 
   vec2 st = uv * 2.0 - 1.0; // [-1, 1] in xy
+  // vec2 st = uv; // [-1, 1] in xy
 
-  // float d = circleSDF(st, 0.5);
+  float d = circleSDF(st, 0.5);
   // float d = circleSDF2(st);
-  float d = rectSDF(st, vec2(1.0));
+  // float d = rectSDF(st, vec2(10.0,1.));
 
   vec3 shape = vec3(1.0 - step(0.0, d));
 
