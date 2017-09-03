@@ -9,10 +9,6 @@ float rectSDF(vec2 st, vec2 s) {
   return max(abs(st.x/s.x), abs(st.y/s.y));
 }
 
-float circleSDF2(vec2 st) {
-  return length(st - 0.5) * 2.0;
-}
-
 float crossSDF(vec2 st, float s) {
   vec2 size = vec2(0.25, s);
   return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
@@ -23,13 +19,16 @@ void main() {
   float aspect = iResolution.x / iResolution.y;
   uv.x *= aspect;
 
-  vec2 st = uv * 2.0 - 1.0; // [-1, 1] in xy
-  // vec2 st = uv; // [-1, 1] in xy
+  // vec2 st = uv * 2.0 - 1.0; // [-1, 1] in xy
+  vec2 st = uv;
 
-  float d = circleSDF(st, 0.5);
-  // float d = circleSDF2(st);
-  // float d = rectSDF(st, vec2(10.0,1.));
+  float d;
+  // d = circleSDF(st, 0.5);
+  // d = circleSDF2(st);
+  // d = rectSDF(st, vec2(1.0,0.5));
+  d = crossSDF(st, 1.0);
 
+  d -= 0.5;
   vec3 shape = vec3(1.0 - step(0.0, d));
 
   // Negative parts are red / Positive parts are blue / Green is hard to for me
