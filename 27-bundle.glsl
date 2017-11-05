@@ -41,6 +41,13 @@ float polySDF(vec2 st, int V) {
   return cos(floor(0.5 + a/v) * v - a) * r;
 }
 
+float hexSDF(vec2 st) {
+  st = abs(2.0 * st - 1.0);
+  float result = sqrt3over2 * st.x + 0.5 * st.y;
+  result = max(result, abs(st.y));
+  return result;
+}
+
 float fill(float x, float size) {
   return 1.0 - step(size, x);
 }
@@ -60,20 +67,32 @@ vec2 rotate(vec2 st, float a) {
   return rotated + 0.5;
 }
 
-const float polySize = 0.5;
-const float strokeWidth = 0.05;
+const float polySize = 0.6;
+const float strokeWidth = 0.1;
+const float smallHexSize = 0.15;
+const float spacing = 0.06;
 void main() {
   vec3 color = vec3(0.0);
   vec2 st = gl_FragCoord.xy / iResolution.xy;
 
-  float sdf = polySDF(st, 6);
+  st = st.yx;
+
+  // My solution
+  float sdf = hexSDF(st);
   color += stroke(sdf, polySize, strokeWidth);
+  sdf = hexSDF(st + vec2(-spacing, 0.0));
+  color += fill(sdf, smallHexSize);
+  sdf = hexSDF(st + vec2(spacing, 1.1 * spacing));
+  color += fill(sdf, smallHexSize);
+  sdf = hexSDF(st + vec2(spacing, -1.1 * spacing));
+  color += fill(sdf, smallHexSize);
 
-  sdf = polySDF(st + rotate(vec2(0.5), PI/6.0), 6);
-  color += fill(sdf, 0.1);
-  // sdf = polySDF(rotate(st + vec2(0.1)/2.0, PI/6.0), 6);
-  // color += fill(sdf, 0.1);
+  color *= 0.0; // Just to reset stuff
+  // Theirs
+  color += stroke(hexSDF(st), polySize, strokeWidth);
+  color += fill(hexSDF(st - vec2(-0.06, -0.1)), smallHexSize);
+  color += fill(hexSDF(st - vec2(-0.06, 0.1)), smallHexSize);
+  color += fill(hexSDF(st - vec2(0.11, 0.0)), smallHexSize);
 
-  // color = vec3(sdf);
   gl_FragColor = vec4(color, 1.0);
 }
