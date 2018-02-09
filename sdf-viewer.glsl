@@ -4,14 +4,14 @@ float circleSDF(vec2 st, float radius) {
   return length(st) - radius;
 }
 
-float rectSDF(vec2 st, vec2 s) {
+float rectangleSDF(vec2 st, vec2 s) {
   st = st * 2.0 - 1.0;
   return max(abs(st.x/s.x), abs(st.y/s.y));
 }
 
 float crossSDF(vec2 st, float s) {
   vec2 size = vec2(0.25, s);
-  return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
+  return min(rectangleSDF(st, size.xy), rectangleSDF(st, size.yx));
 }
 
 void main() {
@@ -25,7 +25,7 @@ void main() {
   float d;
   // d = circleSDF(st, 0.5);
   // d = circleSDF2(st);
-  // d = rectSDF(st, vec2(1.0,0.5));
+  // d = rectangleSDF(st, vec2(1.0,0.5));
   d = crossSDF(st, 1.0);
 
   d -= 0.5;

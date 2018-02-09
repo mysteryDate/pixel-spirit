@@ -1,8 +1,5 @@
 #pragma glslify: stroke = require('./lib/drawing/stroke')
-
-float circleSDF(vec2 st) {
-  return length(st - 0.5) * 2.0;
-}
+#pragma glslify: circleSDF = require('./lib/sdf/circleSDF')
 
 void main() {
   vec3 color = vec3(0.0);

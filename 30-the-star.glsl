@@ -21,14 +21,14 @@ float circleSDF(vec2 st) {
   return length(st - 0.5) * 2.0;
 }
 
-float rectSDF(vec2 st, vec2 s) {
+float rectangleSDF(vec2 st, vec2 s) {
   st = st * 2.0 - 1.0;
   return max(abs(st.x/s.x), abs(st.y/s.y));
 }
 
 float crossSDF(vec2 st, float s) {
   vec2 size = vec2(0.25, s);
-  return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
+  return min(rectangleSDF(st, size.xy), rectangleSDF(st, size.yx));
 }
 
 float vesicaSDF(vec2 st, float w) {
@@ -37,14 +37,14 @@ float vesicaSDF(vec2 st, float w) {
               circleSDF(st + offset));
 }
 
-float triSDF(vec2 st) {
+float triangleSDF(vec2 st) {
   st = 2.0 * (2.0 * st - 1.0) ;
   return max(sqrt3over2 * abs(st.x) + 0.5 * st.y, -0.5 * st.y);
 }
 
-float rhombSDF(vec2 st) {
-  float triangleSDF = triSDF(st);
-  float invertedTriangleSDF = triSDF(vec2(st.x, 1.0 - st.y));
+float rhombusSDF(vec2 st) {
+  float triangleSDF = triangleSDF(st);
+  float invertedTriangleSDF = triangleSDF(vec2(st.x, 1.0 - st.y));
   return max(triangleSDF, invertedTriangleSDF);
 }
 
@@ -111,10 +111,10 @@ void main() {
   // // I cheated and looked up the raysSDF
   // float ray = raysSDF(rotate(st, PI/8.0), numPoints);
   // color += fill(ray, rayThickness);
-  // float star = min(polySDF(st, 3), polySDF(rotate(st, PI), 3));
-  // color *= 1.0 - step(star, starSize);
-  // color += stroke(star, starSize - lineThickness, lineThickness);
-  // color += fill(star, starSize - 3.0 * lineThickness);
+  // float starSDF = min(polySDF(st, 3), polySDF(rotate(st, PI), 3));
+  // color *= 1.0 - step(starSDF, starSize);
+  // color += stroke(starSDF, starSize - lineThickness, lineThickness);
+  // color += fill(starSDF, starSize - 3.0 * lineThickness);
   // float star2 = min(polySDF(rotate(st, PI/6.0), 3), polySDF(rotate(st, PI + PI/6.0), 3));
   // color *= 1.0 - step(star2, starSize - 5.0 * lineThickness);
   // color += fill(star2, starSize - 5.5 * lineThickness);

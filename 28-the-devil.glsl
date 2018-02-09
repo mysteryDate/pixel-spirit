@@ -21,14 +21,14 @@ float circleSDF(vec2 st) {
   return length(st - 0.5) * 2.0;
 }
 
-float rectSDF(vec2 st, vec2 s) {
+float rectangleSDF(vec2 st, vec2 s) {
   st = st * 2.0 - 1.0;
   return max(abs(st.x/s.x), abs(st.y/s.y));
 }
 
 float crossSDF(vec2 st, float s) {
   vec2 size = vec2(0.25, s);
-  return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
+  return min(rectangleSDF(st, size.xy), rectangleSDF(st, size.yx));
 }
 
 float vesicaSDF(vec2 st, float w) {
@@ -37,14 +37,14 @@ float vesicaSDF(vec2 st, float w) {
               circleSDF(st + offset));
 }
 
-float triSDF(vec2 st) {
+float triangleSDF(vec2 st) {
   st = 2.0 * (2.0 * st - 1.0) ;
   return max(sqrt3over2 * abs(st.x) + 0.5 * st.y, -0.5 * st.y);
 }
 
-float rhombSDF(vec2 st) {
-  float triangleSDF = triSDF(st);
-  float invertedTriangleSDF = triSDF(vec2(st.x, 1.0 - st.y));
+float rhombusSDF(vec2 st) {
+  float triangleSDF = triangleSDF(st);
+  float invertedTriangleSDF = triangleSDF(vec2(st.x, 1.0 - st.y));
   return max(triangleSDF, invertedTriangleSDF);
 }
 
@@ -103,21 +103,21 @@ void main() {
 
   // My attempt, hacky but close I think
   // st = rotate(st, radians(-15.0));
-  // // float star = starSDF(st, numPoints, sin(5.0 * u_time / PI + PI/4.0)/10.0);
-  // float star = starSDF(st, numPoints, 0.1);
-  // color += stroke(star, starSize, strokeWidth);
+  // // float starSDF = starSDF(st, numPoints, sin(5.0 * u_time / PI + PI/4.0)/10.0);
+  // float starSDF = starSDF(st, numPoints, 0.1);
+  // color += stroke(starSDF, starSize, strokeWidth);
   // float circle = circleSDF(st);
   // // color += stroke(circle, starSize * 1.8 * mod(u_time, 2.0) / 2.0, strokeWidth/2.0);
   // color += stroke(circle, starSize * 1.8, strokeWidth/2.0);
-  // color -= stroke(star, starSize + strokeWidth, strokeWidth);
-  // color -= stroke(star, starSize + 2.0 * strokeWidth, strokeWidth);
+  // color -= stroke(starSDF, starSize + strokeWidth, strokeWidth);
+  // color -= stroke(starSDF, starSize + 2.0 * strokeWidth, strokeWidth);
 
   // Their code, magic numbers and all
   color += stroke(circleSDF(st), circleSize, strokeWidth);
   st.y = 1.0 - st.y;
-  float star = starSDF(st.yx, numPoints, 0.1);
-  color *= step(0.7, star);
-  color += stroke(star, 0.4, 0.1);
+  float starSDF = starSDF(st.yx, numPoints, 0.1);
+  color *= step(0.7, starSDF);
+  color += stroke(starSDF, 0.4, 0.1);
 
   gl_FragColor = vec4(color, 1.0);
 }

@@ -1,6 +1,6 @@
 #define PI 3.14159
 
-float polygon(vec2 st, int numSides) {
+float polygonSDF(vec2 st, int numSides) {
   st = 2.0 * st - 1.0;
   float a = atan(st.x, st.y) + PI;
   float r = length(st);
@@ -8,4 +8,4 @@ float polygon(vec2 st, int numSides) {
   return cos(floor(0.5 + a/v) * v - a) * r;
 }
 
-#pragma glslify: export(polygon)
+#pragma glslify: export(polygonSDF)

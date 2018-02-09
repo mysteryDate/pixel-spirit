@@ -1,6 +1,6 @@
 #define PI 3.14159
 
-float star(vec2 st, int V, float s) {
+float starSDF(vec2 st, int V, float s) {
   st = 4.0 * st - 2.0;
   float a = atan(st.y, st.x)/(2.0 * PI);
   float seg = a * float(V);
@@ -11,4 +11,4 @@ float star(vec2 st, int V, float s) {
   return abs(result);
 }
 
-#pragma glslify: export(star)
+#pragma glslify: export(starSDF)

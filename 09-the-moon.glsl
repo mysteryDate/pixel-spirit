@@ -1,8 +1,5 @@
 #pragma glslify: fill = require('./lib/drawing/fill')
-
-float circleSDF(vec2 st) {
-  return length(st - 0.5) * 2.0;
-}
+#pragma glslify: circleSDF = require('./lib/sdf/circleSDF')
 
 void main() {
   float intensity = 0.0;

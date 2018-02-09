@@ -1,5 +1,3 @@
-#define PI 3.14159
-
 void main() {
   vec3 color = vec3(0.0);
   vec2 st = gl_FragCoord.xy / iResolution.xy;

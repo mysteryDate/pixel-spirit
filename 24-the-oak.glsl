@@ -6,14 +6,14 @@ float circleSDF(vec2 st) {
   return length(st - 0.5) * 2.0;
 }
 
-float rectSDF(vec2 st, vec2 s) {
+float rectangleSDF(vec2 st, vec2 s) {
   st = st * 2.0 - 1.0;
   return max(abs(st.x/s.x), abs(st.y/s.y));
 }
 
 float crossSDF(vec2 st, float s) {
   vec2 size = vec2(0.25, s);
-  return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
+  return min(rectangleSDF(st, size.xy), rectangleSDF(st, size.yx));
 }
 
 float vesicaSDF(vec2 st, float w) {
@@ -22,14 +22,14 @@ float vesicaSDF(vec2 st, float w) {
               circleSDF(st + offset));
 }
 
-float triSDF(vec2 st) {
+float triangleSDF(vec2 st) {
   st = 2.0 * (2.0 * st - 1.0) ;
   return max(sqrt3over2 * abs(st.x) + 0.5 * st.y, -0.5 * st.y);
 }
 
-float rhombSDF(vec2 st) {
-  float triangleSDF = triSDF(st);
-  float invertedTriangleSDF = triSDF(vec2(st.x, 1.0 - st.y));
+float rhombusSDF(vec2 st) {
+  float triangleSDF = triangleSDF(st);
+  float invertedTriangleSDF = triangleSDF(vec2(st.x, 1.0 - st.y));
   return max(triangleSDF, invertedTriangleSDF);
 }
 
@@ -63,15 +63,15 @@ void main() {
   st = rotate(st, radians(45.0));
   vec2 s = vec2(1.0);
   // My convoluted solution
-  // color += fill(rectSDF(st, s), bigRectSize + strokeWidth);
-  // color -= fill(rectSDF(st, s), bigRectSize);
-  // color += stroke(rectSDF(st + vec2(bigRectSize/2.0), s), littleRectSize, strokeWidth * 3.0);
-  // color -= 2.0 * stroke(rectSDF(st + vec2(bigRectSize/2.0), s), littleRectSize, strokeWidth);
-  // color -= fill(-1.0 * rectSDF(st, s) + 1.1, bigRectSize + strokeWidth);
+  // color += fill(rectangleSDF(st, s), bigRectSize + strokeWidth);
+  // color -= fill(rectangleSDF(st, s), bigRectSize);
+  // color += stroke(rectangleSDF(st + vec2(bigRectSize/2.0), s), littleRectSize, strokeWidth * 3.0);
+  // color -= 2.0 * stroke(rectangleSDF(st + vec2(bigRectSize/2.0), s), littleRectSize, strokeWidth);
+  // color -= fill(-1.0 * rectangleSDF(st, s) + 1.1, bigRectSize + strokeWidth);
   // Theirs
   float offset = 0.15;
-  float r1 = rectSDF(st, s);
-  float r2 = rectSDF(st + offset, s);
+  float r1 = rectangleSDF(st, s);
+  float r2 = rectangleSDF(st + offset, s);
   color += stroke(r1, bigRectSize, strokeWidth);
   color *= step(littleRectSize, r2);
   color += stroke(r2, littleRectSize, strokeWidth) * fill(r1, bigRectSize + strokeWidth/2.0);
