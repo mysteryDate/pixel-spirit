@@ -1,24 +1,8 @@
 #pragma glslify: circleSDF = require('./lib/sdf/circle')
 #pragma glslify: heartSDF = require('./lib/sdf/heart')
 #pragma glslify: polySDF = require('./lib/sdf/polygon')
-
-float fill(float x, float size) {
-  return 1.0 - step(size, x);
-}
-
-float flip(float v, float pct) {
-  return mix(v, 1.0 - v, pct);
-}
-
-float stroke(float x, float s, float w) {
-  float d = step(s, x + w * 0.5) - step(s, x - w * 0.5);
-  return clamp(d, 0.0, 1.0);
-}
-
-vec3 bridge(vec3 c, float d, float s, float w) {
-  c *= 1.0 - stroke(d, s, 2.0 * w);
-  return c + stroke(d, s, w);
-}
+#pragma glslify: fill = require('./lib/drawing/fill')
+#pragma glslify: stroke = require('./lib/drawing/stroke')
 
 void main() {
   vec3 color = vec3(0.0);
