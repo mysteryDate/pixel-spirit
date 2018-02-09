@@ -1,15 +1,6 @@
-// vec2 iResolution
+#pragma glslify: circleSDF = require('./lib/sdf/circle')
 #define PI 3.14159
 const float sqrt3over2 = sqrt(3.0)/2.0;
-
-float circleSDF(vec2 st) {
-  return length(st - 0.5) * 2.0;
-}
-
-float rectSDF(vec2 st, vec2 s) {
-  st = st * 2.0 - 1.0;
-  return max(abs(st.x/s.x), abs(st.y/s.y));
-}
 
 float crossSDF(vec2 st, float s) {
   vec2 size = vec2(0.25, s);
@@ -88,12 +79,6 @@ float flip(float v, float pct) {
 float stroke(float x, float s, float w) {
   float d = step(s, x + w * 0.5) - step(s, x - w * 0.5);
   return clamp(d, 0.0, 1.0);
-}
-
-vec2 rotate(vec2 st, float a) {
-  mat2 rotationMatrix = mat2(cos(a), -sin(a), sin(a), cos(a));
-  vec2 rotated = rotationMatrix * (st - 0.5);
-  return rotated + 0.5;
 }
 
 vec3 bridge(vec3 c, float d, float s, float w) {

@@ -1,3 +1,4 @@
+#pragma glslify: crossSDF = require('./lib/sdf/cross')
 // vec2 iResolution
 #define PI 3.14159
 
@@ -24,10 +25,10 @@ float rectSDF(vec2 st, vec2 s) {
   return max(abs(st.x/s.x), abs(st.y/s.y));
 }
 
-float crossSDF(vec2 st, float s) {
-  vec2 size = vec2(0.25, s);
-  return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
-}
+// float crossSDF(vec2 st, float s) {
+//   vec2 size = vec2(0.25, s);
+//   return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
+// }
 
 float fill(float x, float size) {
   return 1.0 - step(size, x);
