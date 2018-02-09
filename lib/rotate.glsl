@@ -1,7 +1,6 @@
-vec2 rotate(vec2 st, float a) {
-  mat2 rotationMatrix = mat2(cos(a), -sin(a), sin(a), cos(a));
-  vec2 rotated = rotationMatrix * (st - 0.5);
-  return rotated + 0.5;
+vec2 rotate(vec2 st, float theta) {
+  mat2 rotationMatrix = mat2(cos(theta), sin(theta), -sin(theta), cos(theta));
+  return rotationMatrix * st;
 }
 
 #pragma glslify: export(rotate)

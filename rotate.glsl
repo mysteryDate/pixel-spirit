@@ -1,10 +1,5 @@
-
+#pragma glslify: rotate = require(./lib/rotate)
 #define PI 3.14159
-
-vec2 rotate(vec2 st, float theta) {
-  mat2 rotationMatrix = mat2(cos(theta), sin(theta), -sin(theta), cos(theta));
-  return rotationMatrix * st;
-}
 
 void main() {
   vec3 color = vec3(0.0);

@@ -1,15 +1,7 @@
 #pragma glslify: crossSDF = require('./lib/sdf/cross')
+#pragma glslify: rotateAboutPoint = require('./lib/rotateAboutPoint')
 
 #define PI 3.14159
-
-vec2 rotate(vec2 st, float theta) {
-  mat2 rotationMatrix = mat2(cos(theta), sin(theta), -sin(theta), cos(theta));
-  return rotationMatrix * st;
-}
-
-vec2 rotateAboutPoint(vec2 st, float theta, vec2 point) {
-  return rotate(st - point, theta) + point;
-}
 
 float stroke(float x, float s, float w) {
   float d = step(s, x + w * 0.5) - step(s, x - w * 0.5);
