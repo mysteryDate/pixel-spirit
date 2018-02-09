@@ -1,6 +1,6 @@
 #pragma glslify: circleSDF = require('./lib/sdf/circleSDF')
-#pragma glslify: heartSDF = require('./lib/sdf/heart')
-#pragma glslify: polySDF = require('./lib/sdf/polygon')
+#pragma glslify: polySDF = require('./lib/sdf/polygonSDF')
+#pragma glslify: heartSDF = require('./lib/sdf/heartSDF')
 #pragma glslify: fill = require('./lib/drawing/fill')
 #pragma glslify: stroke = require('./lib/drawing/stroke')
 
