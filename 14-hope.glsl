@@ -1,3 +1,4 @@
+#pragma glslify: vesicaSDF = require('./lib/sdf/vesica')
 // vec2 iResolution
 #define PI 3.14159
 
@@ -18,12 +19,6 @@ float rectSDF(vec2 st, vec2 s) {
 float crossSDF(vec2 st, float s) {
   vec2 size = vec2(0.25, s);
   return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
-}
-
-float vesicaSDF(vec2 st, float w) {
-  vec2 offset = vec2(w * 0.5, 0.0);
-  return max( circleSDF(st - offset),
-              circleSDF(st + offset));
 }
 
 float fill(float x, float size) {
