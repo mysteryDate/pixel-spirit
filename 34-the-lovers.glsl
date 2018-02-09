@@ -80,6 +80,18 @@ float raysSDF(vec2 st, int N) {
   return fract(theta * float(N));
 }
 
+float heartSDF(vec2 st) {
+  float h;
+  st -= vec2(0.5, 0.8);
+  float r = 5.0 * length(st);
+  st = normalize(st);
+  h = st.y * pow(abs(st.x), 0.67);
+  h /= st.y + 1.5;
+  h -= 2.0 * st.y - 1.26;
+  h = r - h;
+  return h;
+}
+
 float fill(float x, float size) {
   return 1.0 - step(size, x);
 }
@@ -99,34 +111,21 @@ vec2 rotate(vec2 st, float a) {
   return rotated + 0.5;
 }
 
-int numRays = 50;
-float vesicaSize = 0.8;
-float vesicaShape = 0.3;
-float smallVesicaSize = 0.7;
+vec3 bridge(vec3 c, float d, float s, float w) {
+  c *= 1.0 - stroke(d, s, 2.0 * w);
+  return c + stroke(d, s, w);
+}
+
 void main() {
   vec3 color = vec3(0.0);
   vec2 st = gl_FragCoord.xy / iResolution.xy;
 
-  // My solution, lotsa magic numbers
-  // float rays = raysSDF(st, numRays);
-  // color += stroke(rays, 0.5, 0.15);
-  // float vesica = vesicaSDF(st, vesicaShape);
-  // color *= fill(vesica, vesicaSize);
-  //
-  // float v2 = vesicaSDF(st.yx, 0.5);
-  // color *= 1.0 - fill(v2, smallVesicaSize);
-  // color += stroke(v2, smallVesicaSize, 0.03);
-  //
-  // float circle = circleSDF(st - vec2(0.0, 0.03));
-  // color += stroke(circle, 0.2, 0.03) * fill(v2, smallVesicaSize);
+  // My solution is pretty much the same as theirs
+  // after looking up the SDF
+  float heart = heartSDF(st);
+  color += fill(heart, 0.5);
 
-  // Their solution, too big again!
-  float v1 = vesicaSDF(st, 0.5);
-  vec2 st2 = st.yx + vec2(0.04, 0.0);
-  float v2 = vesicaSDF(st2, 0.7);
-  color += stroke(v2, 1.0, 0.05);
-  color += fill(v2, 1.0) * stroke(circleSDF(st), 0.3, 0.05);
-  color += fill(raysSDF(st, numRays), 0.2) * fill(v1, 1.25) * step(1.0, v2);
+  color -= stroke(polySDF(st, 3), 0.15, 0.05);
 
   gl_FragColor = vec4(color, 1.0);
 }
