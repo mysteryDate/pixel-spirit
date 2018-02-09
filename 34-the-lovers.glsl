@@ -2,21 +2,6 @@
 #define PI 3.14159
 const float sqrt3over2 = sqrt(3.0)/2.0;
 
-float map(float value, float inMin, float inMax, float outMin, float outMax) {
-  return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
-}
-
-vec2 map(vec2 value, vec2 inMin, vec2 inMax, vec2 outMin, vec2 outMax) {
-  vec2 result = vec2(0.0);
-  result.x = map(value.x, inMin.x, inMax.x, outMin.x, outMax.x);
-  result.y = map(value.y, inMin.y, inMax.y, outMin.y, outMax.y);
-  return result;
-}
-
-vec2 map(vec2 value, float inMin, float inMax, float outMin, float outMax) {
-  return map(value, vec2(inMin), vec2(inMax), vec2(outMin), vec2(outMax));
-}
-
 float circleSDF(vec2 st) {
   return length(st - 0.5) * 2.0;
 }

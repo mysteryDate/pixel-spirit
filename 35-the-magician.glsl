@@ -1,21 +1,8 @@
+#pragma glslify: map = require('./lib/map')
+
 // vec2 iResolution
 #define PI 3.14159
 const float sqrt3over2 = sqrt(3.0)/2.0;
-
-float map(float value, float inMin, float inMax, float outMin, float outMax) {
-  return outMin + (outMax - outMin) * (value - inMin) / (inMax - inMin);
-}
-
-vec2 map(vec2 value, vec2 inMin, vec2 inMax, vec2 outMin, vec2 outMax) {
-  vec2 result = vec2(0.0);
-  result.x = map(value.x, inMin.x, inMax.x, outMin.x, outMax.x);
-  result.y = map(value.y, inMin.y, inMax.y, outMin.y, outMax.y);
-  return result;
-}
-
-vec2 map(vec2 value, float inMin, float inMax, float outMin, float outMax) {
-  return map(value, vec2(inMin), vec2(inMax), vec2(outMin), vec2(outMax));
-}
 
 float circleSDF(vec2 st) {
   return length(st - 0.5) * 2.0;
@@ -120,7 +107,7 @@ void main() {
   vec3 color = vec3(0.0);
   vec2 st = gl_FragCoord.xy / iResolution.xy;
 
-  float d = sin(u_time) + 1.0;
+  float d = map(sin(u_time), -1.0, 1.0, 0.0, 0.2);
   color += fill(circleSDF(st + vec2(d, 0.0)), 0.4);
   gl_FragColor = vec4(color, 1.0);
 }
