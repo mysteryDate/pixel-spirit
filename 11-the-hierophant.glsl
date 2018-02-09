@@ -1,5 +1,5 @@
 #pragma glslify: crossSDF = require('./lib/sdf/cross')
-// vec2 iResolution
+
 #define PI 3.14159
 
 vec2 rotate(vec2 st, float theta) {
@@ -24,11 +24,6 @@ float rectSDF(vec2 st, vec2 s) {
   st = st * 2.0 - 1.0;
   return max(abs(st.x/s.x), abs(st.y/s.y));
 }
-
-// float crossSDF(vec2 st, float s) {
-//   vec2 size = vec2(0.25, s);
-//   return min(rectSDF(st, size.xy), rectSDF(st, size.yx));
-// }
 
 float fill(float x, float size) {
   return 1.0 - step(size, x);

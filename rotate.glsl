@@ -1,4 +1,4 @@
-// vec2 iResolution
+
 #define PI 3.14159
 
 vec2 rotate(vec2 st, float theta) {

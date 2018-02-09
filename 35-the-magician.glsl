@@ -1,6 +1,6 @@
 #pragma glslify: map = require('./lib/map')
 
-// vec2 iResolution
+
 #define PI 3.14159
 const float sqrt3over2 = sqrt(3.0)/2.0;
 

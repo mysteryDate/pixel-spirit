@@ -1,4 +1,4 @@
-// vec2 iResolution
+
 #define PI 3.14159
 
 float stroke(float x, float s, float w) {
