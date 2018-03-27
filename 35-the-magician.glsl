@@ -2,7 +2,6 @@
 #pragma glslify: stroke = require('./lib/drawing/stroke')
 #pragma glslify: bridge = require('./lib/drawing/bridge')
 #pragma glslify: flip = require('./lib/drawing/flip')
-#pragma glslify: map = require('./lib/map')
 
 const vec2 offset = vec2(0.15, 0.0);
 const float radius = 0.4;
