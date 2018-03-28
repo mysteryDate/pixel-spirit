@@ -9,6 +9,8 @@
 const vec2 offset = vec2(0.10, 0.0);
 const float radius = 0.25;
 const float width = 0.06;
+const float rhombusSize = 0.1;
+const float rhombusDistance = 0.4;
 #define PI 3.14159
 void main() {
   vec3 color = vec3(0.0);
@@ -24,8 +26,10 @@ void main() {
   float rect2 = rectangleSDF(rect2UV, vec2(1.0));
   color = bridge(color, rect2, radius, width);
   st.y = flip(st.y, step(0.5, st.y));
-  float rhombus = rhombusSDF(st + vec2(0.0, 0.4));
-  color += fill(rhombus, 0.1);
+  float rhombus = rhombusSDF(st + vec2(0.0, rhombusDistance));
+  color += fill(rhombus, rhombusSize);
+
+  // Their solution is gross, so I'm not even gonna write it down
 
   gl_FragColor = vec4(color, 1.0);
 }
