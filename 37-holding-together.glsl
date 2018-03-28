@@ -1,11 +1,9 @@
 #pragma glslify: rotateAboutPoint = require('./lib/rotateAboutPoint')
-#pragma glslify: rotate = require('./lib/rotate')
 #pragma glslify: rectangleSDF = require('./lib/sdf/rectangleSDF')
 #pragma glslify: stroke = require('./lib/drawing/stroke')
 #pragma glslify: bridge = require('./lib/drawing/bridge')
 #pragma glslify: flip = require('./lib/drawing/flip')
 #pragma glslify: fill = require('./lib/drawing/fill')
-#pragma glslify: map = require('./lib/map')
 
 // This isn't on the card, but the ratios here are important
 const float size = 0.3;
@@ -32,7 +30,7 @@ void main() {
   st = gl_FragCoord.xy / iResolution.xy;
 
   // Their solution, this one is super brittle, I don't like it
-  st.x = mix(1.0 - st.x, st.x, step(0.5, st.y));
+  st.x = flip(st.x, 1.0 - step(0.5, st.y));
   float angle = radians(45.0);
   vec2 leftST = rotateAboutPoint(st + offset, angle, vec2(0.5));
   float leftSquare = rectangleSDF(leftST, vec2(1.0));
