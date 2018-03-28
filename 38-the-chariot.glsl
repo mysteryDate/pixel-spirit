@@ -10,12 +10,14 @@ void main() {
   vec3 color = vec3(0.0);
   vec2 st = gl_FragCoord.xy / iResolution.xy;
 
-  // My solution, the final mix is maybe cheating, but it's clear!
+  // used in both solutions
   // float angle = sin(u_time);
   float angle = radians(45.0);
   float square = rectangleSDF(st, vec2(1.0));
   vec2 rotatedST = rotateAboutPoint(st, angle, vec2(0.5));
   float rotatedSquare = rectangleSDF(rotatedST, vec2(1.0));
+
+  // My solution, the final mix is maybe cheating, but it's clear!
   vec3 outerColor = color + stroke(rotatedSquare, size, strokeWidth);
   outerColor = bridge(outerColor, square, size, strokeWidth);
   vec3 innerColor = color + stroke(square, size, strokeWidth);
