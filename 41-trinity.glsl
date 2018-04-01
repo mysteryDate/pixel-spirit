@@ -2,7 +2,6 @@
 #pragma glslify: polygonSDF = require('./lib/sdf/polygonSDF')
 #pragma glslify: stroke = require('./lib/drawing/stroke')
 #pragma glslify: bridge = require('./lib/drawing/bridge')
-#pragma glslify: flip = require('./lib/drawing/flip')
 
 #define PI 3.14159
 const vec2 CENTER = vec2(0.5);
