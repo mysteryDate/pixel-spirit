@@ -3,26 +3,36 @@
 #pragma glslify: stroke = require('./lib/drawing/stroke')
 #pragma glslify: fill = require('./lib/drawing/fill')
 #pragma glslify: bridge = require('./lib/drawing/bridge')
+#pragma glslify: map = require('./lib/map')
 
 #define PI 3.14159
 const vec2 CENTER = vec2(0.5);
 const float size = 0.116;
 const float strokeWidth = 0.003;
 const vec2 offset = vec2(0.0, 0.2);
-const int NUM_POINTS = 8;
+// const int NUM_POINTS = 8;
 
+const float duration = 50.0;
+const float squareBrightness = 1.0 / 4.0;
+#define numSquares 36.0
 vec3 mySolution(vec2 st) {
   vec3 color = vec3(0.0);
 
-  float angle = 2.0 * PI / float(NUM_POINTS);
-  for(int i = 0; i < NUM_POINTS; i++) {
-  // for(int i = 0; i < 1; i++) {
-    vec2 xy = rotateAboutPoint(st, angle * float(i), CENTER);
+  float NUM_POINTS = map(sin(2.0 * PI * u_time/duration), -1.0, 1.0, 0.0, 1.0);
+  NUM_POINTS = map(pow(NUM_POINTS, 2.0), 0.0, 1.0, 1.0, numSquares);
+
+  // float angle = 2.0 * PI / float(NUM_POINTS);
+  float angle = 2.0 * PI / NUM_POINTS;
+  for(float i = 0.0; i < numSquares; i++) {
+    vec2 xy = rotateAboutPoint(st, angle * i, CENTER);
     float square = rectangleSDF(rotateAboutPoint(xy - offset, PI/4.0, CENTER));
-    color += fill(square, size);
+    color += fill(square, size) * squareBrightness;
 
     float centerLine = stroke(abs(xy.x - 0.5), 0.0, strokeWidth);
-    color += centerLine * (1.0 - step(length(offset), length(st - 0.5)));
+    float lineLength = 2.0;
+    // float lineLength = max(1.19, length(st.y - xy.y));
+    // lineLength = 1.0 - step(0.2, lineLength);
+    color += centerLine * step(lineLength, 1.0/length(st.y - xy.y)) / 3.0;
   }
 
   return color;
