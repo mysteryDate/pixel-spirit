@@ -43,7 +43,7 @@ vec3 mySolution(vec2 st) {
   return color;
 }
 
-vec3 theirSolution(vec2 st) {
+vec3 theirSolution(vec2 st) { // eh, fuck it
   vec3 color = vec3(0.0);
 
   return color;
