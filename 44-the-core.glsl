@@ -6,7 +6,7 @@
 
 #define PI 3.14159
 const vec2 CENTER = vec2(0.5);
-const float size = 0.115;
+const float size = 0.116;
 const float strokeWidth = 0.003;
 const vec2 offset = vec2(0.0, 0.2);
 const int NUM_POINTS = 8;
@@ -21,14 +21,14 @@ vec3 mySolution(vec2 st) {
     float square = rectangleSDF(rotateAboutPoint(xy - offset, PI/4.0, CENTER));
     color += fill(square, size);
 
-    color += stroke(abs(xy.x - 0.5), 0.0, strokeWidth);
+    float centerLine = stroke(abs(xy.x - 0.5), 0.0, strokeWidth);
+    color += centerLine * (1.0 - step(length(offset), length(st - 0.5)));
   }
-  color *= 1.0 - step(length(offset), length(st - 0.5));
 
   return color;
 }
 
-vec3 theirSolution(vec2 st) { // respectfully, this is a fucking mess
+vec3 theirSolution(vec2 st) {
   vec3 color = vec3(0.0);
 
   return color;
